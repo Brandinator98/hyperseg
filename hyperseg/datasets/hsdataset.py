@@ -12,7 +12,7 @@ from pathlib import Path
 import numpy as np
 from hyperseg.datasets.analysis.tools import StatCalculator
 from hyperseg.datasets.transforms import Normalize
-from hyperseg.datasets.utils import label_histogram
+#from hyperseg.datasets.utils import label_histogram
 
 N_DEBUG_SAMPLES = 5
 

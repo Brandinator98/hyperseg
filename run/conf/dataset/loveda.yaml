@@ -1,0 +1,6 @@
+name: 'loveda'
+log_name: 'loveda'
+basepath: '/mnt/data/datasets/LoveDA'
+label_set: 'semantic'
+batch_size: 4
+label_def: 'loveda_labeldef.txt'
