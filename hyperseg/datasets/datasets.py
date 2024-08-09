@@ -5,6 +5,7 @@ import hyperseg
 from .hsidrive import HSIDrive
 from .whuohs import WHUOHS
 from .hyko2 import HyKo2
+from .loveda import LoveDA
 from .hyperspectralcity import HyperspectralCityV2
 from .hsiroad import HSIRoad
 from pathlib import Path
@@ -43,6 +44,15 @@ def get_datamodule(cfg):
             pca_out_dir=cfg.pca_out_dir,
             debug=cfg.debug,
             drop_last=cfg.drop_last,
+        )
+    elif cfg.name == 'loveda':
+        datamodule = LoveDA(
+            basepath=cfg.basepath,
+            num_workers=cfg.num_workers,
+            batch_size=cfg.batch_size,
+            label_def=label_def_dir.joinpath(cfg.label_def),
+            normalize=cfg.normalize,
+            debug=cfg.debug
         )
     elif cfg.name == 'hyko2':
         datamodule = HyKo2(
