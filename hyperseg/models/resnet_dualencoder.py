@@ -1,12 +1,11 @@
 import torch
 import numpy as np
 import copy
-import torchvision
-from .semsegmodule import SemanticSegmentationModule
+from semsegmodule import SemanticSegmentationModule
 
 
 class DualEncoderResNet(SemanticSegmentationModule):
-    def __init__(self, logger, out_channels=25):
+    def __init__(self, out_channels=25):
         super(DualEncoderResNet, self).__init__()
         #load model 
         #  https://pytorch.org/hub/pytorch_vision_fcn_resnet101/ 
@@ -26,7 +25,6 @@ class DualEncoderResNet(SemanticSegmentationModule):
         self.upsample = torch.nn.ConvTranspose2d(in_channels=21, out_channels=21, kernel_size=16, padding=4, stride=8, output_padding=0)
         self.conv1x1 = torch.nn.Conv2d(in_channels=21, out_channels=out_channels, kernel_size=1) #indian pines has 16 classes
         self.hsi_initialized = False
-        self.logger = logger
         
     def forward(self, image):
         #print(f"Image shape: {image.shape}, {image.shape[2]}") # print in-between shapes
@@ -54,22 +52,20 @@ class DualEncoderResNet(SemanticSegmentationModule):
             self.hsi_encoder[0].conv1 = torch.nn.Conv2d(
                 in_channels=hsi_image.shape[0], out_channels=64, kernel_size=7, stride=2, padding=3, bias=False
             ) 
-            #self.logger.info(f"HSI Image Channel Size: {hsi_image.shape[0]}")
             self.hsi_initialized = True
             self.upsample = torch.nn.Upsample(size=hsi_image.shape[2])
-            self.logger.info(f"Initialized HSI Encoder")
             return
         except Exception as e:
-            self.logger.error(e)
+            print(e)
             return
 
 
 
-if __name__ == "__main__":
+#if __name__ == "__main__":
     # load pre-trained weights into model 
-    model = DualEncoderResNet(logger=None)
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    model = model.to(device)
-    weights = torch.load("./models/LoveDA_9.pth")
-    pretrained_dict = {k: v for k, v in weights.items() if k.startswith("encoder")}
-    model.load_state_dict(pretrained_dict, strict=False)
+    # model = DualEncoderResNet()
+    # device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    # model = model.to(device)
+    # weights = torch.load("./models/LoveDA_9.pth")
+    # pretrained_dict = {k: v for k, v in weights.items() if k.startswith("encoder")}
+    # model.load_state_dict(pretrained_dict, strict=False)
