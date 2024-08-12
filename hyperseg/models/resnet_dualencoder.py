@@ -3,10 +3,13 @@ import numpy as np
 import copy
 from semsegmodule import SemanticSegmentationModule
 
+from pathlib import Path
+import hyperseg
 
 class DualEncoderResNet(SemanticSegmentationModule):
-    def __init__(self, out_channels=25):
-        super(DualEncoderResNet, self).__init__()
+    def __init__(self, out_channels=25,
+            **kwargs):
+        super(DualEncoderResNet, self).__init__(**kwargs)
         #load model 
         #  https://pytorch.org/hub/pytorch_vision_fcn_resnet101/ 
 
@@ -59,11 +62,9 @@ class DualEncoderResNet(SemanticSegmentationModule):
             print(e)
             return
 
-
-
 #if __name__ == "__main__":
     # load pre-trained weights into model 
-    # model = DualEncoderResNet()
+    # model = DualEncoderResNet(n_classes=25, n_channels=220, learning_rate=0.001, label_def=Path(hyperseg.__file__).parent.joinpath("datasets/labeldefs").joinpath('whuohs_labeldef.txt'), loss_name="cross_entropy", optimizer_name="AdamW", momentum=0, weight_decay=0, ignore_index=0)
     # device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     # model = model.to(device)
     # weights = torch.load("./models/LoveDA_9.pth")
