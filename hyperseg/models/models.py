@@ -40,11 +40,6 @@ def get_model(cfg):
             weight_decay=cfg.weight_decay,
             log_grad_norm=cfg.log_grad_norm,
             rich_train_log=cfg.rich_train_log,
-            bilinear=cfg.bilinear,
-            batch_norm=cfg.batch_norm,
-            class_weighting=cfg.class_weighting,
-            export_preds_every_n_epochs=cfg.export_preds_every_n_epochs,
-            da_hflip=cfg.da_hflip,
         )
     elif cfg.name == 'agunet':
         model = AGUNet(

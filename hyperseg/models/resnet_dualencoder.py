@@ -1,7 +1,7 @@
 import torch
 import numpy as np
 import copy
-from semsegmodule import SemanticSegmentationModule
+from .semsegmodule import SemanticSegmentationModule
 
 from pathlib import Path
 import hyperseg

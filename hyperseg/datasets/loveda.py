@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from hsdataset import HSDataModule, HSDataset
+from .hsdataset import HSDataModule, HSDataset
 from torchvision import transforms
 #from hyperseg.datasets.transforms import ToTensor, PermuteData
 from torch.utils.data import Dataset

@@ -1,5 +1,9 @@
 #!/usr/bin/env python
 
+import sys
+sys.path.remove('/home/abrand/hyperseg/src/hyperspectral-semantic-segmentation')
+sys.path.append('/home/abrand/hyperseg')
+
 import torch
 from pytorch_lightning import Trainer, seed_everything
 from pytorch_lightning import loggers as pl_loggers
@@ -11,7 +15,7 @@ import hydra
 from omegaconf import DictConfig, OmegaConf, open_dict
 import wandb
 
-from hyperseg.datasets import get_datamodule
+from hyperseg.datasets.datasets import get_datamodule
 from hyperseg.datasets.callbacks import ExportSplitCallback
 from hyperseg.models import get_model
 
@@ -33,6 +37,7 @@ def make_reproducible(manual_seed=42):
 @hydra.main(version_base=None, config_path="conf", config_name="train_conf")
 def train(cfg):
     print(OmegaConf.to_yaml(cfg))
+
     
     if cfg.dataset.pca is not None:
         if cfg.dataset.pca_out_dir is None:
@@ -144,4 +149,5 @@ def train(cfg):
             ckpt_path=cfg.training.resume_path)
 
 if __name__ == '__main__':
+    print(sys.path)
     train()

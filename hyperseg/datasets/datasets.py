@@ -37,7 +37,6 @@ def get_datamodule(cfg):
             num_workers=cfg.num_workers,
             batch_size=cfg.batch_size,
             label_def=label_def_dir.joinpath(cfg.label_def),
-            manual_seed=cfg.manual_seed,
             normalize=cfg.normalize,
             spectral_average=cfg.spectral_average,
             pca=cfg.pca,
