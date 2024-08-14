@@ -1,5 +1,5 @@
 name: 'whuohs'
 log_name: 'whuohs'
 basepath: '/mnt/data/datasets/whuohs'
-batch_size: 16
+batch_size: 4
 label_def: 'whuohs_labeldef.txt'
