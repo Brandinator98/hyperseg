@@ -127,6 +127,8 @@ def train(cfg):
     print("Channels: ", cfg.model.n_channels)
 
     model = get_model(cfg.model)
+    ## TODO: Add weights here
+
     ## Misc
     if cfg.model.compile:
         model = torch.compile(model)
