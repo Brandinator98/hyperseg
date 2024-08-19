@@ -1,0 +1,36 @@
+defaults:
+    - _self_
+    - dataset: loveda
+    - model: resnet_dualencoder
+
+model:
+    compile: False # not tested yet
+    da_hflip: 0.0
+    dropout: 0.0
+    log_grad_norm: False
+    rich_train_log: False
+
+training:
+    resume_path: null
+    max_epochs: 300
+    mat_mul_precision: 'high' # can be set to 'medium'|'high'|'highest'
+    seed: 42
+    accelerator: 'gpu'
+    devices: [0]
+    early_stopping: True
+
+logging:
+    project_name: ??? # required field, must be set by user
+    path: '/mnt/data/logs/'
+    tb_logger: True
+    wb_logger: True
+
+dataset: 
+    spectral_average: False
+    pca: null
+    pca_out_dir: '.'
+    debug: False # if true the dataset is reduced to 5 samples overall
+    num_workers: 6
+    normalize: False
+    half_precision: False
+    drop_last: False
