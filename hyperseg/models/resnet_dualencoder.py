@@ -20,6 +20,9 @@ class DualEncoderResNet(SemanticSegmentationModule):
         # backbone weights -- are pretrained weights for the standard resnet50, that is used as a backbone for the model. All ResNet50_Weights are possible https://pytorch.org/vision/stable/models.html#table-of-all-available-classification-weights (available weights)
         # weights_backbone=None - no pretrained weights 
         # weights="DEFAULT" - pretrained weights - ImageNet v1
+
+        self.save_hyperparameters()
+
         original_model = torch.hub.load('pytorch/vision:v0.10.0', 'fcn_resnet50', weights='DEFAULT')
         self.encoder = torch.nn.Sequential(*list(original_model.children())[:-2])
         self.classifier = torch.nn.Sequential(original_model.classifier)

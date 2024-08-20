@@ -1,0 +1,37 @@
+defaults:
+    - _self_
+    - dataset: whuohs
+    - model: resnet_dualencoder
+
+model:
+    compile: False # not tested yet
+    da_hflip: 0.0
+    dropout: 0.0
+    log_grad_norm: False
+    rich_train_log: False
+
+training: 
+    preload_path: '/mnt/data/logs/loveda/lightning_logs/loveda-resnet_dualencoder-20240820_07-25-45/checkpoints/checkpoint-resnet_dualencoder-epoch-43-val-iou-0.545.ckpt'
+    resume_path: null
+    max_epochs: 500
+    mat_mul_precision: 'high' # can be set to 'medium'|'high'|'highest'
+    seed: 42
+    accelerator: 'gpu'
+    devices: [0]
+    early_stopping: True
+
+logging:
+    project_name: ??? # required field, must be set by user
+    path: '/mnt/data/logs/'
+    tb_logger: True
+    wb_logger: True
+
+dataset: 
+    spectral_average: False
+    pca: null
+    pca_out_dir: '.'
+    debug: False # if true the dataset is reduced to 5 samples overall
+    num_workers: 6
+    normalize: False
+    half_precision: False
+    drop_last: False

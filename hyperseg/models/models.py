@@ -1,10 +1,10 @@
 #!/usr/bin/env python
-
+import torch
 from hyperseg.models import UNet, AGUNet, SpecTr
 from hyperseg.models.deeplabv3 import DeeplabV3Plus
 from hyperseg.models.resnet_dualencoder import DualEncoderResNet
 
-def get_model(cfg):
+def get_model(cfg, preload_path = ""):
     if cfg.name == 'unet':
         model = UNet(
             n_channels=cfg.n_channels,
@@ -40,7 +40,12 @@ def get_model(cfg):
             weight_decay=cfg.weight_decay,
             log_grad_norm=cfg.log_grad_norm,
             rich_train_log=cfg.rich_train_log,
-        )
+        ) 
+        if (preload_path != ""):
+            model_weights = torch.load(preload_path) 
+            pretrained_dict = {k: v for k, v in model_weights['state_dict'].items() if k.startswith("encoder")}
+            model.load_state_dict(pretrained_dict, strict=False)
+        
     elif cfg.name == 'agunet':
         model = AGUNet(
             n_channels=cfg.n_channels,
