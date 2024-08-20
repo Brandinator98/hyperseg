@@ -34,7 +34,9 @@ class DualEncoderResNet(SemanticSegmentationModule):
         
     def forward(self, image):
         #print(f"Image shape: {image.shape}, {image.shape[2]}") # print in-between shapes
-        rgb_image = image[:, [19, 8, 0], :, :]  # Extract pseudo-RGB image like Ding et al. - bands 63, 19, 1
+        rgb_image = image
+        if self.n_channels > 20:
+            rgb_image = image[:, [19, 8, 0], :, :]  # Extract pseudo-RGB image like Ding et al. - bands 63, 19, 1
         y = self.hsi_encoder(image)
         x = self.encoder(rgb_image)
         #print(f"X shape: {np.shape(x['out'])}, Y shape: {np.shape(y['out'])}") # print in-between shapes

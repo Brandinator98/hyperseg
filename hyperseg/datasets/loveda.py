@@ -2,6 +2,7 @@
 
 from .hsdataset import HSDataModule, HSDataset
 from torchvision import transforms
+from hyperseg.datasets.transforms import PermuteData
 #from hyperseg.datasets.transforms import ToTensor, PermuteData
 from torch.utils.data import Dataset
 import os
@@ -20,6 +21,7 @@ class LoveDA(HSDataModule):
         super().__init__(**kwargs)
 
         self.transform = transforms.Compose([
+            transforms.Resize([512,512]),
             transforms.ToTensor(),
             #PermuteData(new_order=[2,0,1]),
         ])
@@ -78,6 +80,7 @@ class LoveDADataset(Dataset):
             image = self.transform(image)
             label = self.transform(label) 
 
+        label = label.squeeze()
         #valid/performant way of normalizing? I guess not.. 
         label = label / self.max_label_value
         label = label * 6.0
@@ -86,6 +89,8 @@ class LoveDADataset(Dataset):
 
 
     def get_max_value_over_images(self):
+        if not self.debug:
+            return torch.tensor(0.0275)
         overall_max = -float('inf')  # Initialize with a very low value
         for label_path in tqdm(self.label_paths, desc="Calculate normalization value"):
             label = Image.open(label_path).convert("L")
@@ -107,14 +112,14 @@ class LoveDADataset(Dataset):
 # batch_size: 4
 # label_def: 'loveda_labeldef.txt'
 
-if __name__ == "__main__":
-    datamodule = LoveDA(
-                basepath='/mnt/data/datasets/LoveDA',
-                batch_size=4,
-                label_def=Path(hyperseg.__file__).parent.joinpath("datasets/labeldefs").joinpath('loveda_labeldef.txt'),
-                debug=True, 
-                num_workers=4
-            )
-    datamodule.setup()
-    print(datamodule.dataset_train.__len__())
-    print(datamodule.dataset_train.__getitem__(0)[0].shape) # torch.Size([3, 1024, 1024])
+# if __name__ == "__main__":
+#     datamodule = LoveDA(
+#                 basepath='/mnt/data/datasets/LoveDA',
+#                 batch_size=4,
+#                 label_def=Path(hyperseg.__file__).parent.joinpath("datasets/labeldefs").joinpath('loveda_labeldef.txt'),
+#                 debug=True, 
+#                 num_workers=4
+#             )
+#     datamodule.setup()
+#     print(datamodule.dataset_train.__len__())
+#     print(datamodule.dataset_train.__getitem__(0).shape) # torch.Size([3, 1024, 1024])

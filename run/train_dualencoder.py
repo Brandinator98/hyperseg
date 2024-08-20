@@ -151,5 +151,6 @@ def train(cfg):
             ckpt_path=cfg.training.resume_path)
 
 if __name__ == '__main__':
-    print(sys.path)
+    # print(sys.path)
+    torch.cuda.empty_cache()
     train()

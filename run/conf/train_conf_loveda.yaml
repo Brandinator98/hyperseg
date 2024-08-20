@@ -30,7 +30,7 @@ dataset:
     pca: null
     pca_out_dir: '.'
     debug: False # if true the dataset is reduced to 5 samples overall
-    num_workers: 6
+    num_workers: 4
     normalize: False
     half_precision: False
     drop_last: False
