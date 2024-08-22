@@ -103,7 +103,7 @@ def train(cfg):
         callbacks.append(
             EarlyStopping(
                 monitor="Validation/jaccard",
-                patience=15,
+                patience=30,
                 mode="max"
             )
         )
