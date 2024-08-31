@@ -11,7 +11,8 @@ model:
     rich_train_log: False
 
 training: 
-    preload_path: '/mnt/data/logs/loveda2/lightning_logs/loveda-resnet_dualencoder-20240822_14-37-18/checkpoints/checkpoint-resnet_dualencoder-epoch-60-val-iou-0.533.ckpt'
+    # preload_path: '/mnt/data/logs/loveda2/lightning_logs/loveda-resnet_dualencoder-20240822_14-37-18/checkpoints/checkpoint-resnet_dualencoder-epoch-60-val-iou-0.533.ckpt'
+    preload_path: COCO
     resume_path: null
     max_epochs: 500
     mat_mul_precision: 'high' # can be set to 'medium'|'high'|'highest'

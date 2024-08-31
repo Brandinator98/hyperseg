@@ -9,7 +9,7 @@ from pathlib import Path
 import hyperseg
 
 class DualEncoderResNet(SemanticSegmentationModule):
-    def __init__(self,
+    def __init__(self, loadCOCO = False,
             **kwargs):
         super(DualEncoderResNet, self).__init__(**kwargs)
         #load model 
@@ -25,10 +25,16 @@ class DualEncoderResNet(SemanticSegmentationModule):
 
         self.save_hyperparameters()
 
+        self.loadCOCO = loadCOCO
         original_model = fcn_resnet50(weights=None,weights_backbone=None)
         self.encoder = original_model.backbone
+        if loadCOCO:
+            coco_model = fcn_resnet50(weights=FCN_ResNet50_Weights.COCO_WITH_VOC_LABELS_V1,weights_backbone=None)
+            self.encoder = copy.deepcopy(coco_model.backbone)
+            print("loaded COCO encoder")
+            del coco_model
         self.classifier = original_model.classifier
-        self.hsi_encoder = copy.deepcopy(self.encoder)
+        self.hsi_encoder = copy.deepcopy(original_model.backbone)
         self.hsi_encoder.conv1 = torch.nn.Conv2d(
             in_channels=self.n_channels, out_channels=64, kernel_size=7, stride=2, padding=3, bias=False
         ) 
@@ -51,13 +57,13 @@ class DualEncoderResNet(SemanticSegmentationModule):
 
     def add_features(self, x, y):
         return torch.add(x,y)
-    
+  
    
-#if __name__ == "__main__":
+# if __name__ == "__main__":
     # load pre-trained weights into model 
-    # model = DualEncoderResNet(n_classes=25, n_channels=220, learning_rate=0.001, label_def=Path(hyperseg.__file__).parent.joinpath("datasets/labeldefs").joinpath('whuohs_labeldef.txt'), loss_name="cross_entropy", optimizer_name="AdamW", momentum=0, weight_decay=0, ignore_index=0)
-    # device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    # model = model.to(device)
-    # weights = torch.load("./models/LoveDA_9.pth")
-    # pretrained_dict = {k: v for k, v in weights.items() if k.startswith("encoder")}
-    # model.load_state_dict(pretrained_dict, strict=False)
+    # model1 = fcn_resnet50(weights=FCN_ResNet50_Weights.COCO_WITH_VOC_LABELS_V1,weights_backbone=None)
+    # model2 = fcn_resnet50(weights=None,weights_backbone=None)
+
+    # for k,v in model1.backbone.state_dict().items():
+    #     print(model1.backbone.state_dict()[k] == model2.backbone.state_dict()[k])
+    # print(model1.backbone.state_dict().get('conv1.weight') == model2.backbone.state_dict().get('conv1.weight'))
