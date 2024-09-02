@@ -13,7 +13,7 @@ model:
 training: 
     # preload_path: '/mnt/data/logs/loveda2/lightning_logs/loveda-resnet_dualencoder-20240822_14-37-18/checkpoints/checkpoint-resnet_dualencoder-epoch-60-val-iou-0.533.ckpt'
     preload_path: COCO
-    resume_path: null
+    resume_path: '/mnt/data/logs/preloadCOCO/lightning_logs/whuohs-resnet_dualencoder-20240831_13-16-10/checkpoints/checkpoint-resnet_dualencoder-epoch-37-val-iou-0.308.ckpt'
     max_epochs: 500
     mat_mul_precision: 'high' # can be set to 'medium'|'high'|'highest'
     seed: 42
