@@ -9,29 +9,31 @@ model:
     dropout: 0.0
     log_grad_norm: False
     rich_train_log: False
+    ckpt: ???
 
-training: 
-    preload_path: '/mnt/data/logs/loveda2/lightning_logs/loveda-resnet_dualencoder-20240822_14-37-18/checkpoints/checkpoint-resnet_dualencoder-epoch-60-val-iou-0.533.ckpt'
-    resume_path: '/mnt/data/logs/preload2/lightning_logs/whuohs-resnet_dualencoder-20240828_11-34-12/checkpoints/checkpoint-resnet_dualencoder-epoch-51-val-iou-0.367.ckpt'
+training:
+    resume_path: null
     max_epochs: 500
     mat_mul_precision: 'high' # can be set to 'medium'|'high'|'highest'
     seed: 42
     accelerator: 'gpu'
     devices: [0]
-    early_stopping: True
+    early_stopping: False
 
 logging:
     project_name: ??? # required field, must be set by user
     path: '/mnt/data/logs/'
     tb_logger: True
-    wb_logger: True
+    wb_logger: False
 
 dataset: 
     spectral_average: False
     pca: null
     pca_out_dir: '.'
-    debug: False # if true the dataset is reduced to 5 samples overall
-    num_workers: 6
+    debug: False # if true the dataset is reduced to 100 samples overall
+    num_workers: 8
     normalize: False
     half_precision: False
+    synth_rgb: False
+    rgb_out_dir: '.'
     drop_last: False

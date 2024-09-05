@@ -1,0 +1,10 @@
+0, annualCrop, 255, 215, 0
+1, forest, 34, 139, 34
+2, herbaceousVegetation, 102, 205, 170
+3, highway, 105, 105, 105
+4, industrial, 178, 34, 34
+5, pasture, 0, 255, 127
+6, permanentCrop, 218, 165, 32
+7, residential, 128, 0, 128
+8, river, 70, 130, 180
+9, seaLake, 0, 191, 255
