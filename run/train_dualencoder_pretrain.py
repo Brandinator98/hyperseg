@@ -142,7 +142,7 @@ def train(cfg):
             devices=cfg.training.devices, 
             max_epochs=cfg.training.max_epochs,
             precision=precision,
-            enable_model_summary=False, # enable for default model parameter printing at start
+            enable_model_summary=True, # enable for default model parameter printing at start
             logger=loggers,
             )
 

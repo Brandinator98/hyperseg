@@ -9,7 +9,7 @@ from pathlib import Path
 import hyperseg
 
 class DualEncoderResNet(SemanticSegmentationModule):
-    def __init__(self, loadCOCO = False,
+    def __init__(self, loadCOCO = False, loadImageNet = False,
             **kwargs):
         super(DualEncoderResNet, self).__init__(**kwargs)
         #load model 
@@ -26,6 +26,7 @@ class DualEncoderResNet(SemanticSegmentationModule):
         self.save_hyperparameters()
 
         self.loadCOCO = loadCOCO
+        self.loadImageNet = loadImageNet
         original_model = fcn_resnet50(weights=None,weights_backbone=None)
         self.encoder = original_model.backbone
         if loadCOCO:
@@ -33,6 +34,11 @@ class DualEncoderResNet(SemanticSegmentationModule):
             self.encoder = copy.deepcopy(coco_model.backbone)
             print("loaded COCO encoder")
             del coco_model
+        if loadImageNet:
+            imageNet_model = fcn_resnet50(weights=None,weights_backbone=ResNet50_Weights.IMAGENET1K_V2)
+            self.encoder = copy.deepcopy(imageNet_model.backbone)
+            print("loaded ImageNet encoder")
+            del imageNet_model
         self.classifier = original_model.classifier
         self.hsi_encoder = copy.deepcopy(original_model.backbone)
         self.hsi_encoder.conv1 = torch.nn.Conv2d(
