@@ -1,5 +1,9 @@
 #!/usr/bin/env python
 
+import sys
+sys.path.remove('/home/abrand/hyperseg/src/hyperspectral-semantic-segmentation')
+sys.path.append('/home/abrand/hyperseg')
+
 import torch
 from pytorch_lightning import Trainer, seed_everything
 from pytorch_lightning import loggers as pl_loggers
