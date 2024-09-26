@@ -2,7 +2,7 @@
 import torch
 from hyperseg.models import UNet, AGUNet, SpecTr
 from hyperseg.models.deeplabv3 import DeeplabV3Plus
-from hyperseg.models.resnet_dualencoder_2 import DualEncoderResNet
+from hyperseg.models.resnet_dualencoder import DualEncoderResNet
 
 def get_model(cfg, preload_path = ""):
     if cfg.name == 'unet':
@@ -33,7 +33,7 @@ def get_model(cfg, preload_path = ""):
             print("using COCO model")
             coco = True
         elif preload_path == "ImageNet":
-            print("using ImageNet model")
+            print("Using ImageNet model")
             imageNet = True
        
         model = DualEncoderResNet(
